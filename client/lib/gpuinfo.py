@@ -13,6 +13,7 @@ output_list = []
 gpu_name = []
 total_memory = []
 free_memory = []
+gpu_util = []
 
 for output_str in output_temp:
     output_list.append(output_str.replace(" ", ""))
@@ -22,11 +23,17 @@ for i in range(len(output_list)):
         gpu_name.append(output_list[i][output_list[i].find(":")+1:])
             
     elif "FBMemoryUsage" in output_list[i]:
-        total_memory.append(output_list[i+1])
-        free_memory.append(output_list[i+3])
+        total_memory.append(output_list[i+1][output_list[i+1].find(":")+1:])
+        free_memory.append(output_list[i+3][output_list[i+3].find(":")+1:])
+
+    elif "Utilization" in output_list[i]:
+        gpu_util.append(output_list[i+1][output_list[i+1].find(":")+1:])
+        
 
 # for debug        
 for i in range(len(gpu_name)):
-    print(gpu_name[i])
-    print(total_memory[i])
-    print(free_memory[i])
+    print("{0}. {1}".format(i, gpu_name[i]))
+    print("total_memory : {}".format(total_memory[i]))
+    print("free_memory : {}".format(free_memory[i]))
+    print("gpu_utilization : {}".format(gpu_util[i]))
+    
