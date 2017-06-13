@@ -1,6 +1,7 @@
 # coding: UTF-8
 from flask import Flask
 from flask_restful import Api, Resource
+from lib.gpuinfo import GPUInfo
 
 app = Flask(__name__)
 api = Api(app)
@@ -11,11 +12,10 @@ class GPU(Resource):
         """
         get gpu information
         """
-        pass
+        gpu = GPUInfo()
+        return gpu.get_gpu_info(), 200
     
-
 api.add_resource(GPU, '/')
-
 
 if __name__ == '__main__':
     app.config["ERROR_404_HELP"] = False

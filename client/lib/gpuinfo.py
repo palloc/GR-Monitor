@@ -14,35 +14,35 @@ class GPUInfo:
         for output_str in output_temp:
             self.output_list.append(output_str.replace(" ", ""))
 
-        gpu_num = []
         gpu_name = []
         total_memory = []
         free_memory = []
         gpu_util = []
     
-        for i in range(len(output_list)):
-            if "ProductName" in output_list[i]:
-                gpu_num.append(i)
-                gpu_name.append(output_list[i][output_list[i].find(":")+1:])
+        for i in range(len(self.output_list)):
+            if "ProductName" in self.output_list[i]:
+                gpu_name.append(self.output_list[i][self.output_list[i].find(":")+1:])
             
-            elif "FBMemoryUsage" in output_list[i]:
-                total_memory.append(output_list[i+1][output_list[i+1].find(":")+1:])
-                free_memory.append(output_list[i+3][output_list[i+3].find(":")+1:])
+            elif "FBMemoryUsage" in self.output_list[i]:
+                total_memory.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:])
+                free_memory.append(self.output_list[i+3][self.output_list[i+3].find(":")+1:])
 
-            elif "Utilization" in output_list[i]:
-                gpu_util.append(output_list[i+1][output_list[i+1].find(":")+1:])
+            elif "Utilization" in self.output_list[i]:
+                gpu_util.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:])
 
         gpu_info = []
-        gpu = {}
+
         # create json shape
         for i in range(len(gpu_name)):
-            gpu.update({"number": self.gpu_num[i]})
-            gpu.update({"name": self.gpu_name[i]})
-            gpu.update({"total_memory": self.total_memory[i]})
-            gpu.update({"free_memory": self.free_memory[i]})
-            gpu.update({"utilization_rate": self.gpu_util[i]})            
+            gpu = {}
+            gpu.update({"number": i})
+            gpu.update({"name": gpu_name[i]})
+            gpu.update({"total_memory": total_memory[i]})
+            gpu.update({"free_memory": free_memory[i]})
+            gpu.update({"utilization_rate": gpu_util[i]})            
             gpu_info.append(gpu)
 
+        print(gpu_info)
         return {"gpu": gpu_info}
 
         
