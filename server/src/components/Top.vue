@@ -23,6 +23,23 @@ export default {
 	return {
 	    msg: 'hahaha'
 	}
+    },
+    ready: function () {
+	this.getJson()
+    },
+    methods: {
+	getJson: function () {
+	    var that = this
+	    $.ajax({
+		type: 'GET',
+		crossDomain: true,
+		url: '10.29.36.28:8080',
+		dataType: 'json',
+		success: function (json) {
+		    that.$data.gpu_resources = json.gpu
+		}
+	    })
+	}
     }
 }
 </script>
