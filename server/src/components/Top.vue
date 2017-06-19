@@ -1,8 +1,14 @@
 <template>
   <div class="container">
     <h1>GPU Resource</h1>
-    <div class="contents">{{ gpu_resource[0] }}</div>
-    {{ message }}
+    <div class="contents">
+      <div class="gpu-content" v-for="gpu in gpu_resources">
+	<h2>GPU{{ gpu.number }}.</h2>
+	<p>GPUの種類: {{ gpu.name }}</p>
+	<p>メモリ使用率: {{ gpu.free_memory }} / {{ gpu.total_memory }}</p>
+	<p>GPU使用率: {{ gpu.utilization_rate }}%</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -10,7 +16,7 @@
 var $ = require('jquery')
 export default {
     data () {
-	var gpu_resource = [
+	var gpu_resources = [
 	    {
 		number: "",
 		name: "",
@@ -20,7 +26,7 @@ export default {
 	    }
 	]
 	return {
-	    gpu_resource
+	    gpu_resources
 	}
     },
     mounted: function () {
@@ -35,7 +41,7 @@ export default {
 		url: 'http://192.168.56.101:3000/gpu',
 		dataType: 'json',
 		success: function (json) {
-		    that.$data.gpu_resource = json
+		    that.$data.gpu_resources = json
 		}
 	    })
 	}
