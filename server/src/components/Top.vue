@@ -1,30 +1,29 @@
 <template>
   <div class="container">
     <h1>GPU Resource</h1>
-    <div class="contents">{{ msg }}</div>
+    <div class="contents">{{ gpu_resource[0] }}</div>
+    {{ message }}
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 var $ = require('jquery')
 export default {
-    name: 'container',
     data () {
 	var gpu_resource = [
 	    {
-		number: '',
-		name: '',
-		total_memory: '',
-		free_memory: '',
-		utilization_rate: ''
+		number: "",
+		name: "",
+		total_memory: "",
+		free_memory: "",
+		utilization_rate: ""
 	    }
 	]
 	return {
-	    msg: 'hahaha'
+	    gpu_resource
 	}
     },
-    ready: function () {
+    mounted: function () {
 	this.getJson()
     },
     methods: {
@@ -33,10 +32,10 @@ export default {
 	    $.ajax({
 		type: 'GET',
 		crossDomain: true,
-		url: '10.29.36.28:8080',
+		url: 'http://192.168.56.101:3000/gpu',
 		dataType: 'json',
 		success: function (json) {
-		    that.$data.gpu_resources = json.gpu
+		    that.$data.gpu_resource = json
 		}
 	    })
 	}

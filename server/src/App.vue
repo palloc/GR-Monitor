@@ -5,8 +5,11 @@
 </template>
 
 <script>
+import Top from './components/Top'
 export default {
-  name: 'app'
+    components: {
+	Top
+    }
 }
 </script>
 
