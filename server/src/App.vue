@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <header>
+      <h1>GPU リソースモニター</h1>
+    </header>
     <router-view></router-view>
   </div>
 </template>
@@ -14,7 +17,19 @@ export default {
 </script>
 
 <style>
+header {
+    width: 100%;
+    background-color: black;
+    text-align: center;
+}
+
+header h1 {
+    margin: 10px;
+    color: white;
+}
+
 #app {
-  margin: 20px;
+    margin: 0;
+    width: 100%;
 }
 </style>
