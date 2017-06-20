@@ -4,8 +4,9 @@
       <div class="gpu-content" v-for="gpu in gpu_resources">
 	<h2>GPU{{ gpu.number }}.</h2>
 	<p>GPUの種類: {{ gpu.name }}</p>
-	<p>メモリ使用率: {{ gpu.free_memory / gpu.total_memory * 100 }} %</p>
+	<p>メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
 	<p>GPU使用率: {{ gpu.utilization_rate }} %</p>
+	{{ gpu.data }}
 	<chart :type="'line'" :data="gpu.data" :options="options"></chart>
 
       </div>
@@ -76,34 +77,38 @@ export default {
 			//create object
 			$.each(that.$data.gpu_resources, function (i) {
 			    that.$data.graph_data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-			    that.$data.graph_datasets.push(
-				{
-				    data: that.$data.graph_data[i],
-				    backgroundColor: '#f87979',
-				    tension: 0.1,
-				    
-				}
-			    )
 			    that.$data.gpu_resources[i].data = {
 				labels: that.$data.graph_labels,
 				datasets: [
-				    that.$data.graph_datasets[i]
+				    {
+					data: that.$data.graph_data[i],
+					backgroundColor: '#f87979',
+					tension: 0.1
+				    }
 				]
 			    }
-
 			})
 		    } else {
-			that.$data.gpu_resources = json			
-			that.$data.graph_datasets = []
+			that.$data.gpu_resources = json
 			$.each(that.$data.gpu_resources, function (i) {
 			    //left shift
-			    $.each(that.$data.graph_data[i], function (j) {
+			    $.each(that.$data.graph_data[0], function (j) {
 				if (j !== that.$data.graph_data[i].length-1) {
 				    that.$data.graph_data[i][j] = that.$data.graph_data[i][j+1]
 				} else {
 				    that.$data.graph_data[i][j] = that.$data.gpu_resources[i].utilization_rate
 				}
 			    })
+			    that.$data.gpu_resources[0].data = {
+				labels: that.$data.graph_labels,
+				datasets: [
+				    {
+					data: that.$data.graph_data[i],
+					backgroundColor: 'blue',
+					tension: 0.1
+				    }
+				]
+			    }
 			    that.$data.gpu_resources[i].data = {
 				labels: that.$data.graph_labels,
 				datasets: [
@@ -126,7 +131,12 @@ export default {
 <style scoped>
 .container {
     margin: 3%;
-    width: 60%;
+    width: 100%;
+}
+
+.contents {
+    width: 70%;
+    
 }
 
 h1, h2 {
