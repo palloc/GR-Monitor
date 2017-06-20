@@ -28,7 +28,7 @@ class GPUInfo:
                 free_memory.append(self.output_list[i+3][self.output_list[i+3].find(":")+1:self.output_list[i+3].find("MiB")])
 
             elif "Utilization" in self.output_list[i]:
-                gpu_util.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:])
+                gpu_util.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:self.output_list[i+1].find("%")])
 
         gpu_info = []
 
@@ -37,9 +37,9 @@ class GPUInfo:
             gpu = {}
             gpu.update({"number": i})
             gpu.update({"name": gpu_name[i]})
-            gpu.update({"total_memory": total_memory[i]})
-            gpu.update({"free_memory": free_memory[i]})
-            gpu.update({"utilization_rate": gpu_util[i]})            
+            gpu.update({"total_memory": int(total_memory[i])})
+            gpu.update({"free_memory": int(free_memory[i])})
+            gpu.update({"utilization_rate": int(gpu_util[i])})            
             gpu_info.append(gpu)
 
         print(gpu_info)
