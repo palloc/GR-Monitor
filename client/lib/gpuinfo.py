@@ -42,7 +42,6 @@ class GPUInfo:
             gpu.update({"utilization_rate": int(gpu_util[i])})            
             gpu_info.append(gpu)
 
-        print(gpu_info)
-        return {"gpu": gpu_info}
+        return gpu_info
 
         
