@@ -30,13 +30,28 @@ export default {
 		utilization_rate: Number
 	    }
 	]
-	var graph_data = [0, 10, 50, 0, 0, 0, 0, 0]
-	var graph_labels = ['0', '10', '20', '30', '40', '50', '60', '70']
+	var graph_data = [0, 10, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var graph_labels = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']
 	var graph_datasets = [{
 	    data: graph_data,
-	    backgroundColor: '#000000'
+	    backgroundColor: '#000000',
+	    tension: 0.1
+	    
 	}]
-	var options = {segmentShowStroke: false}
+	var options = {
+	    segmentShowStroke: false,
+	    scales: {
+	        yAxes: [
+		    {
+		        ticks: {
+			    beginAtZero: true,
+			    min: 0,
+			    max: 100
+			}
+		    }
+		]
+	    }
+	}
 	return {
 	    gpu_resources,
 	    data: {
@@ -79,8 +94,9 @@ export default {
 	    })
 	    that.$data.graph_datasets = [{
 		data: that.$data.graph_data,
-		backgroundColor: '#000000'
-	    }]  
+		backgroundColor: '#000000',
+		tension: 0.1
+	    }]
 	    that.$data.data = {
 		labels: that.$data.graph_labels,
 		datasets: that.$data.graph_datasets
@@ -93,10 +109,15 @@ export default {
 <style scoped>
 .container {
     margin: 3%;
+    width: 60%;
 }
 
 h1, h2 {
   font-weight: normal;
+}
+
+chart {
+    width: 50%;
 }
 
 ul {
