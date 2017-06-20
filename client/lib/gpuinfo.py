@@ -30,7 +30,7 @@ class GPUInfo:
             elif "Utilization" in self.output_list[i]:
                 gpu_util.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:self.output_list[i+1].find("%")])
 
-        gpu_info = []
+        gpu_info = [{}]
 
         # create json shape
         for i in range(len(gpu_name)):
