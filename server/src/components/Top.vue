@@ -8,7 +8,6 @@
 	<p>GPU使用率: {{ gpu.utilization_rate }} %</p>
 	<chart :type="'line'" :data="data" :options="options"></chart>
       </div>
-      {{ graph_datasets[0].data }}
     </div>
   </div>
 </template>
@@ -30,14 +29,9 @@ export default {
 		utilization_rate: Number
 	    }
 	]
-	var graph_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var graph_data = []
 	var graph_labels = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']
-	var graph_datasets = [{
-	    data: graph_data,
-	    backgroundColor: '#000000',
-	    tension: 0.1
-	    
-	}]
+	var graph_datasets = []
 	var options = {
 	    segmentShowStroke: false,
 	    scales: {
@@ -76,40 +70,50 @@ export default {
 	    var that = this
 	    $.ajax({
 		type: 'GET',
-		crossDomain: true,
-		url: 'http://192.168.56.101:3000/gpu',
+		crossDomain: false,
+		url: 'http://153.120.159.204:5000',
 		dataType: 'json',
 		success: function (json) {
-		    if 
-		    that.$data.gpu_resources = json
-		    that.$data.graph_datasets = []
-		    $.each(that.$data.gpu_resources, function (i) {
-			//left shift
-			$.each(that.$data.graph_data, function (j) {
-			    if (j !== that.$data.graph_data.length-1) {
-				that.$data.graph_data[j] = that.$data.graph_data[j+1]
-
-			    } else {
-				that.$data.graph_data[j] = that.$data.gpu_resources[i].utilization_rate
-				console.log(i)
-				console.log(j)
-			    }
+		    if (that.$data.graph_data.length === 0) {
+			that.$data.gpu_resources = json
+			//create object
+			$.each(that.$data.gpu_resources, function (i) {
+			    that.$data.graph_data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+			    that.$data.graph_datasets.push(
+				{
+				    data: that.$data.graph_data[i],
+				    backgroundColor: '#000000',
+				    tension: 0.1
+				}
+			    )
 			})
-			console.log('----')
-			that.$data.graph_datasets.push(
-			    {
-				data: that.$data.graph_data,
-				backgroundColor: '#000000',
-				tension: 0.1
-			    }
-			)
-		    })
+		    } else {
+			that.$data.gpu_resources = json			
+			that.$data.graph_datasets = []
+			$.each(that.$data.gpu_resources, function (i) {
+			    //left shift
+			    $.each(that.$data.graph_data, function (j) {
+				if (j !== that.$data.graph_data.length-1) {
+				    that.$data.graph_data[i][j] = that.$data.graph_data[i][j+1]
+				} else {
+				    that.$data.graph_data[i][j] = that.$data.gpu_resources[i].utilization_rate
+				}
+			    })
+			    that.$data.graph_datasets.push(
+				{
+				    data: that.$data.graph_data[i],
+				    backgroundColor: '#000000',
+				    tension: 0.1
+				}
+			    )
+			})
+		    }
+		    that.$data.data = {
+			labels: that.$data.graph_labels,
+			datasets: that.$data.graph_datasets
+		    }
 		}
 	    })
-	    that.$data.data = {
-		labels: that.$data.graph_labels,
-		datasets: that.$data.graph_datasets
-	    }
 	}
     }
 }

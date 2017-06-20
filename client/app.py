@@ -13,7 +13,7 @@ class GPU(Resource):
         get gpu information
         """
         gpu = GPUInfo()
-        return gpu.get_gpu_info(), 200
+        return gpu.get_gpu_info(), 200, {'Access-Control-Allow-Origin': '*'}
     
 api.add_resource(GPU, '/')
 
