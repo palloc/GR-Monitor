@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="contents">
-      <div class="gpu-content" v-for="gpu in gpu_resources">
+    <div class="contents" v-for="gpu in gpu_resources">
+      <div class="gpu-content" v-if="gpu.name !== none">
 	<h2>GPU{{ gpu.number }}.</h2>
 	<p>GPUの種類: {{ gpu.name }}</p>
 	<p>メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
