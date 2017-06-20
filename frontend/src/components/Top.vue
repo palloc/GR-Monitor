@@ -6,7 +6,6 @@
 	<p>GPUの種類: {{ gpu.name }}</p>
 	<p>メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
 	<p>GPU使用率: {{ gpu.utilization_rate }} %</p>
-	{{ gpu.data }}
 	<chart :type="'line'" :data="gpu.data" :options="options"></chart>
 
       </div>
@@ -59,6 +58,7 @@ export default {
     },
     mounted: function () {
 	this.getJson()
+	this.getJson()
 	setInterval(function () {
 	    this.getJson()
 	}.bind(this), 5000)
@@ -99,16 +99,6 @@ export default {
 				    that.$data.graph_data[i][j] = that.$data.gpu_resources[i].utilization_rate
 				}
 			    })
-			    that.$data.gpu_resources[0].data = {
-				labels: that.$data.graph_labels,
-				datasets: [
-				    {
-					data: that.$data.graph_data[i],
-					backgroundColor: 'blue',
-					tension: 0.1
-				    }
-				]
-			    }
 			    that.$data.gpu_resources[i].data = {
 				labels: that.$data.graph_labels,
 				datasets: [
