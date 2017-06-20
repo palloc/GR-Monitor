@@ -8,7 +8,7 @@
 	<p>GPU使用率: {{ gpu.utilization_rate }} %</p>
 	<chart :type="'line'" :data="data" :options="options"></chart>
       </div>
-      {{ graph_data }}
+      {{ graph_datasets[0].data }}
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
 		utilization_rate: Number
 	    }
 	]
-	var graph_data = [0, 10, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	var graph_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	var graph_labels = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']
 	var graph_datasets = [{
 	    data: graph_data,
@@ -80,18 +80,22 @@ export default {
 		url: 'http://192.168.56.101:3000/gpu',
 		dataType: 'json',
 		success: function (json) {
+		    if 
 		    that.$data.gpu_resources = json
 		    that.$data.graph_datasets = []
-		    for(var i = 0; i < that.$data.gpu_resources.length; i++){
+		    $.each(that.$data.gpu_resources, function (i) {
 			//left shift
 			$.each(that.$data.graph_data, function (j) {
 			    if (j !== that.$data.graph_data.length-1) {
 				that.$data.graph_data[j] = that.$data.graph_data[j+1]
-				console.log(that.$data.gpu_resources[i].utilization_rate)
+
 			    } else {
 				that.$data.graph_data[j] = that.$data.gpu_resources[i].utilization_rate
+				console.log(i)
+				console.log(j)
 			    }
 			})
+			console.log('----')
 			that.$data.graph_datasets.push(
 			    {
 				data: that.$data.graph_data,
@@ -99,7 +103,7 @@ export default {
 				tension: 0.1
 			    }
 			)
-		    }
+		    })
 		}
 	    })
 	    that.$data.data = {

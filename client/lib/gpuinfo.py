@@ -24,8 +24,8 @@ class GPUInfo:
                 gpu_name.append(self.output_list[i][self.output_list[i].find(":")+1:])
             
             elif "FBMemoryUsage" in self.output_list[i]:
-                total_memory.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:])
-                free_memory.append(self.output_list[i+3][self.output_list[i+3].find(":")+1:])
+                total_memory.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:self.output_list[i+1].find("MiB")])
+                free_memory.append(self.output_list[i+3][self.output_list[i+3].find(":")+1:self.output_list[i+3].find("MiB")])
 
             elif "Utilization" in self.output_list[i]:
                 gpu_util.append(self.output_list[i+1][self.output_list[i+1].find(":")+1:])
