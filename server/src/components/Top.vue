@@ -81,22 +81,27 @@ export default {
 		dataType: 'json',
 		success: function (json) {
 		    that.$data.gpu_resources = json
-		    //left shift
-		    $.each(that.$data.graph_data, function (i) {
-			if (i !== that.$data.graph_data.length-1) {
-			    that.$data.graph_data[i] = that.$data.graph_data[i+1]
-			    console.log(that.$data.gpu_resources[0].utilization_rate)
-			} else {
-			    that.$data.graph_data[i] = that.$data.gpu_resources[0].utilization_rate
-			}
-		    })
+		    that.$data.graph_datasets = []
+		    for(var i = 0; i < that.$data.gpu_resources.length; i++){
+			//left shift
+			$.each(that.$data.graph_data, function (j) {
+			    if (j !== that.$data.graph_data.length-1) {
+				that.$data.graph_data[j] = that.$data.graph_data[j+1]
+				console.log(that.$data.gpu_resources[i].utilization_rate)
+			    } else {
+				that.$data.graph_data[j] = that.$data.gpu_resources[i].utilization_rate
+			    }
+			})
+			that.$data.graph_datasets.push(
+			    {
+				data: that.$data.graph_data,
+				backgroundColor: '#000000',
+				tension: 0.1
+			    }
+			)
+		    }
 		}
 	    })
-	    that.$data.graph_datasets = [{
-		data: that.$data.graph_data,
-		backgroundColor: '#000000',
-		tension: 0.1
-	    }]
 	    that.$data.data = {
 		labels: that.$data.graph_labels,
 		datasets: that.$data.graph_datasets
