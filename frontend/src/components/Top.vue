@@ -4,9 +4,9 @@
       <div class="gpu-content" v-if="gpu.name !== none">
 	<h2><span>GPU {{ gpu.number }}</span></h2>
 	<div class="gpu-exp">
-	  <p>・GPUの種類: {{ gpu.name }}</p>
-	  <p>・メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
-	  <p>・GPU使用率: {{ gpu.utilization_rate }} %</p>
+	  <p>・GPU type : <em>{{ gpu.name }}</em></p>
+	  <p>・GPU memory usage : <em>{{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</em></p>
+	  <p>・GPU usage : <em>{{ gpu.utilization_rate }} %</em></p>
 	</div>
 	<div class="gpu-graph">
 	  <chart :type="'line'" :data="gpu.data" :options="options"></chart>
@@ -127,6 +127,7 @@ h2 {
     overflow: hidden;
     text-align: center;
     color: #515963;
+    font-size: 30px;
 }
 
 h2 span {
@@ -167,6 +168,15 @@ li {
 
 a {
     color: #42b983;
+}
+
+p {
+    padding-bottom: 5px;
+}
+
+p em {
+    font-size: 25px;
+    color: #dd0000;
 }
 
 .container {

@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <div id="title">
-	<h1>GPU リソースモニター</h1>
+	<h1>GR-Monitor</h1>
       </div>
     </header>
     <router-view></router-view>
@@ -47,7 +47,8 @@ h1 {
 
 #title {
     top: 0;
-    background-color: black;
+    background-color: #3F3B3A;
     width: 100%;
+    padding: 20px 0;
 }
 </style>
