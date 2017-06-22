@@ -2,12 +2,15 @@
   <div class="container">
     <div class="contents" v-for="gpu in gpu_resources">
       <div class="gpu-content" v-if="gpu.name !== none">
-	<h2>GPU{{ gpu.number }}.</h2>
-	<p>GPUの種類: {{ gpu.name }}</p>
-	<p>メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
-	<p>GPU使用率: {{ gpu.utilization_rate }} %</p>
-	<chart :type="'line'" :data="gpu.data" :options="options"></chart>
-
+	<h2><span>GPU{{ gpu.number }}.</span></h2>
+	<div class="gpu-exp">
+	  <p>GPUの種類: {{ gpu.name }}</p>
+	  <p>メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
+	  <p>GPU使用率: {{ gpu.utilization_rate }} %</p>
+	</div>
+	<div class="gpu-graph">
+	  <chart :type="'line'" :data="gpu.data" :options="options"></chart>
+	</div>
       </div>
     </div>
   </div>
@@ -39,6 +42,7 @@ export default {
 	    scales: {
 	        yAxes: [
 		    {
+			stacked: false,
 		        ticks: {
 			    beginAtZero: true,
 			    min: 0,
@@ -82,8 +86,8 @@ export default {
 				datasets: [
 				    {
 					data: that.$data.graph_data[i],
-					backgroundColor: '#f87979',
-					tension: 0.1
+					backgroundColor: 'rgba(248, 11, 11, 0.5)',
+					tension: 0
 				    }
 				]
 			    }
@@ -104,8 +108,8 @@ export default {
 				datasets: [
 				    {
 					data: that.$data.graph_data[i],
-					backgroundColor: 'blue',
-					tension: 0.1
+					backgroundColor: 'rgba(248, 11, 11, 0.5)',
+					tension: 0
 				    }
 				]
 			    }
@@ -119,35 +123,77 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h2 {
+    overflow: hidden;
+    text-align: center;
+}
+
+h2 span {
+    position: relative;
+    display: inline-block;
+    margin: 0 2.5em;
+    padding: 0 1em;
+    text-align: left;
+}
+
+h2 span::before,
+h2 span::after {
+    position: absolute;
+    top: 50%;
+    content: '';
+    width: 400%;
+    height: 1px;
+    background-color: #ccc;
+}
+
+h2 span::before {
+    right: 100%;
+}
+
+h2 span::after {
+    left: 100%;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+a {
+    color: #42b983;
+}
+
+
 .container {
     margin: 3%;
     width: 100%;
 }
 
 .contents {
-    width: 70%;
-    
+    width: 80%;
+    clear: both;
+    text-align: center;
+    margin: 0 auto;
 }
 
-h1, h2 {
-  font-weight: normal;
+.gpu-content {
+    margin: 0 auto;
+    padding-top: 50px;
 }
 
-chart {
+.gpu-exp {
+    width: 40%;
+    float: left;
+}
+
+.gpu-graph {
     width: 50%;
+    float: left;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
