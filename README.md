@@ -1,7 +1,8 @@
 # GR-Monitor
+GR-Monitor is a GPU utilization monitoring tool.
+
 ## Environment
 - OS:ubuntu
-- python: 2.7.11
 
 ## Set up
 ### Client(GPU Server)
