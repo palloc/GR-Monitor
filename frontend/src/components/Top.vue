@@ -2,11 +2,11 @@
   <div class="container">
     <div class="contents" v-for="gpu in gpu_resources">
       <div class="gpu-content" v-if="gpu.name !== none">
-	<h2><span>GPU{{ gpu.number }}.</span></h2>
+	<h2><span>GPU {{ gpu.number }}</span></h2>
 	<div class="gpu-exp">
-	  <p>GPUの種類: {{ gpu.name }}</p>
-	  <p>メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
-	  <p>GPU使用率: {{ gpu.utilization_rate }} %</p>
+	  <p>・GPUの種類: {{ gpu.name }}</p>
+	  <p>・メモリ使用率: {{ Math.round(((gpu.total_memory-gpu.free_memory) / gpu.total_memory) * 100) }} %</p>
+	  <p>・GPU使用率: {{ gpu.utilization_rate }} %</p>
 	</div>
 	<div class="gpu-graph">
 	  <chart :type="'line'" :data="gpu.data" :options="options"></chart>
@@ -121,11 +121,12 @@ export default {
     }
 }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 h2 {
     overflow: hidden;
     text-align: center;
+    color: #515963;
 }
 
 h2 span {
@@ -141,9 +142,9 @@ h2 span::after {
     position: absolute;
     top: 50%;
     content: '';
-    width: 400%;
+    width: 500%;
     height: 1px;
-    background-color: #ccc;
+    background-color: #515963;
 }
 
 h2 span::before {
@@ -168,9 +169,8 @@ a {
     color: #42b983;
 }
 
-
 .container {
-    margin: 3%;
+    margin: 0 auto;
     width: 100%;
 }
 
@@ -184,16 +184,19 @@ a {
 .gpu-content {
     margin: 0 auto;
     padding-top: 50px;
+    width: 100%;
 }
 
 .gpu-exp {
-    width: 40%;
+    margin: 0 auto;
+    width: 30%;
     float: left;
+    text-align: left;
 }
 
 .gpu-graph {
     width: 50%;
-    float: left;
+    float: right;
 }
 
 </style>
