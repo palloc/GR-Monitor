@@ -85,8 +85,9 @@ export default {
 				labels: that.$data.graph_labels,
 				datasets: [
 				    {
+					label: 'GPU usage',
 					data: that.$data.graph_data[i],
-					backgroundColor: 'rgba(248, 11, 11, 0.5)',
+					backgroundColor: 'rgba(211, 0, 0, 0.6)',
 					tension: 0
 				    }
 				]
