@@ -2,7 +2,8 @@
 GR-Monitor is a GPU utilization monitoring tool.
 
 ***This package has some issues in setup.***
-***Please wait a moment!"""
+
+***Please wait a moment!***
 
 ## Environment
 - OS:ubuntu
